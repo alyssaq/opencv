@@ -27,7 +27,7 @@ static void help()
 }
 
 
-int thresh = 50, N = 11;
+int thresh = 50, N = 5;
 const char* wndname = "Square Detection Demo";
 
 // helper function:
@@ -48,13 +48,20 @@ static void findSquares( const Mat& image, vector<vector<Point> >& squares )
 {
     squares.clear();
 
-    Mat pyr, timg, gray0(image.size(), CV_8U), gray;
+//s    Mat pyr, timg, gray0(image.size(), CV_8U), gray;
 
     // down-scale and upscale the image to filter out the noise
-    pyrDown(image, pyr, Size(image.cols/2, image.rows/2));
-    pyrUp(pyr, timg, image.size());
+    //pyrDown(image, pyr, Size(image.cols/2, image.rows/2));
+    //pyrUp(pyr, timg, image.size());
+
+
+    // blur will enhance edge detection
+    Mat timg(image);
+    medianBlur(image, timg, 9);
+    Mat gray0(timg.size(), CV_8U), gray;
+
     vector<vector<Point> > contours;
-    imshow(wndname, timg);
+
     // find squares in every color plane of the image
     for( int c = 0; c < 3; c++ )
     {
@@ -70,7 +77,7 @@ static void findSquares( const Mat& image, vector<vector<Point> >& squares )
             {
                 // apply Canny. Take the upper threshold from slider
                 // and set the lower to 0 (which forces edges merging)
-                Canny(gray0, gray, 0, thresh, 5);
+                Canny(gray0, gray, 5, thresh, 5);
                 // dilate canny output to remove potential
                 // holes between edge segments
                 dilate(gray, gray, Mat(), Point(-1,-1));
@@ -131,8 +138,11 @@ static void drawSquares( Mat& image, const vector<vector<Point> >& squares )
     for( size_t i = 0; i < squares.size(); i++ )
     {
         const Point* p = &squares[i][0];
+
         int n = (int)squares[i].size();
-        polylines(image, &p, &n, 1, true, Scalar(0,255,0), 3, LINE_AA);
+        //dont detect the border
+        if (p-> x > 3 && p->y > 3)
+          polylines(image, &p, &n, 1, true, Scalar(0,255,0), 3, LINE_AA);
     }
 
     imshow(wndname, image);
@@ -141,7 +151,7 @@ static void drawSquares( Mat& image, const vector<vector<Point> >& squares )
 
 int main(int /*argc*/, char** /*argv*/)
 {
-    static const char* names[] = { "imgs/2stickies.jpg",0 };
+    static const char* names[] = { "imgs/2Stickies.jpg", "imgs/manyStickies.jpg",0 };
     help();
     namedWindow( wndname, 1 );
     vector<vector<Point> > squares;
@@ -157,7 +167,7 @@ int main(int /*argc*/, char** /*argv*/)
 
         findSquares(image, squares);
         drawSquares(image, squares);
-
+        //imwrite( "out", image );
         int c = waitKey();
         if( (char)c == 27 )
             break;
