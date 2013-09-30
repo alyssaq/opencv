@@ -9,7 +9,7 @@
     > ./squares
 
 
-###Sample input and output images in /img
+###Sample input and output images in /imgs
 
 
 <img src="https://raw.github.com/alyssaq/opencv/master/imgs/2stickies.jpg" width="45%" /> 
@@ -22,7 +22,7 @@
 &nbsp;&nbsp;&nbsp; 
 <img src="https://raw.github.com/alyssaq/opencv/master/imgs/out-manyStickies.jpg" width="45%"/>
 
-###References - To improve
+###References - To improve results
 
 http://stackoverflow.com/questions/8667818/opencv-c-obj-c-detecting-a-sheet-of-paper-square-detection   
 http://stackoverflow.com/questions/10533233/opencv-c-obj-c-advanced-square-detection    
