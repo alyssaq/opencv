@@ -17,8 +17,7 @@ static void help()
 {
     cout <<
     "\nA program using pyramid scaling, Canny, contours, contour simpification and\n"
-    "memory storage (it's got it all folks) to find\n"
-    "squares in a list of images pic1-6.png\n"
+    "memory storage to find squares in a list of images\n"
     "Returns sequence of squares detected on the image.\n"
     "the sequence is stored in the specified memory storage\n"
     "Call:\n"
